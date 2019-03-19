@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
+import _ from 'lodash'
 
 /**
  *
@@ -13,8 +14,9 @@ export default function applyStyle(children, styles, type) {
   }
 
   return children.map(child => {
-    if (child.type.displayName === type) {
-      return <Text key={child.key} {...child.props} style={[].concat(child.props.style, styles)} />;
+    if (child.type.displayName === type || child.type.render.name === type) {
+      const combinedStyle = _.assign({}, child.props.style, ...styles);
+      return <Text key={child.key} {...child.props} style={combinedStyle} />;
     }
 
     return child;
